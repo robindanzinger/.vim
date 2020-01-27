@@ -25,18 +25,27 @@ tnoremap <C-j> <C-w>j
 tnoremap <C-k> <C-w>k
 tnoremap <C-l> <C-w>l
 
-" resize windows, Fullscreen
-nnoremap <C-w>F :<c-u>call <SID>MakeTempSession()<CR><C-W>\|<C-W>_
-nnoremap <C-w>f :<c-u>call <SID>RestoreTempSession()<CR>
+" resize window to full width or go back to previous size
+nnoremap <C-w>z :<c-u>call <SID>ToggleWindowZoom()<CR>
 
-let g:windowStates = {}
-let g:vimtmpsessionfile = '.vimtmp.session.swp'
+let g:vimtmpsessionfile = ".vimtmp.session.swp"
+
+function! s:ToggleWindowZoom()
+  if filereadable(g:vimtmpsessionfile)
+    call s:RestoreTempSession()
+  else 
+    call s:MakeTempSession()
+    execute "normal! \<C-W>_\<C-W>|"
+  endif
+endfunction
 
 function! s:MakeTempSession()
-  execute 'mksession! ' .g:vimtmpsessionfile
+  echom "mksession"
+  execute "mksession! " .g:vimtmpsessionfile
 endfunction
 
 function! s:RestoreTempSession()
-  execute 'source ' .g:vimtmpsessionfile 
-  silent execute '!rm ' .g:vimtmpsessionfile
+  echom "rmsession"
+  execute "source " .g:vimtmpsessionfile 
+  silent execute "!rm " .g:vimtmpsessionfile
 endfunction
