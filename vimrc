@@ -26,7 +26,17 @@ tnoremap <C-k> <C-w>k
 tnoremap <C-l> <C-w>l
 
 " resize windows, Fullscreen
-nnoremap <C-w>F <C-w>\|<C-w>_
-" should be enhanced to get previous size, but for simplicity all windows same
-" size
-nnoremap <C-w>f <C-w>=
+nnoremap <C-w>F :<c-u>call <SID>MakeTempSession()<CR><C-W>\|<C-W>_
+nnoremap <C-w>f :<c-u>call <SID>RestoreTempSession()<CR>
+
+let g:windowStates = {}
+let g:vimtmpsessionfile = '.vimtmp.session.swp'
+
+function! s:MakeTempSession()
+  execute 'mksession! ' .g:vimtmpsessionfile
+endfunction
+
+function! s:RestoreTempSession()
+  execute 'source ' .g:vimtmpsessionfile 
+  silent execute '!rm ' .g:vimtmpsessionfile
+endfunction
