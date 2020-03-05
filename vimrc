@@ -14,6 +14,8 @@ autocmd BufNewFile,BufRead *.svelte set syntax=html
 autocmd BufNewFile,BufRead *.ts set syntax=javascript
 syntax sync fromstart
 
+packadd! matchit
+
 " file navigation
 autocmd FileType javascript,svelte,html,css setlocal suffixesadd+=.js,.json,.html,.js,.css
 
