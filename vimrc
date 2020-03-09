@@ -33,24 +33,33 @@ tnoremap <C-l> <C-w>l
 " resize window to full width or go back to previous size
 nnoremap <C-w>z :<c-u>call <SID>ToggleWindowZoom()<CR>
 
-let g:vimtmpsessionfile = ".vimtmp.session.swp"
+" resize window to full width or go back to previous size
+nnoremap <C-w>z :<c-u>call <SID>ToggleWindowZoom()<CR>
 
+let g:windowzoom_on = 0
+let g:window_last_height = 0
+let g:window_last_width = 0 
 function! s:ToggleWindowZoom()
-  if filereadable(g:vimtmpsessionfile)
-    call s:RestoreTempSession()
+  if g:windowzoom_on
+    call s:RestoreWindowSizes()
+    let g:windowzoom_on = 0
   else 
-    call s:MakeTempSession()
+    call s:StoreWindowSizes()
     execute "normal! \<C-W>_\<C-W>|"
+    let g:windowzoom_on = 1
   endif
 endfunction
 
-function! s:MakeTempSession()
-  echom "mksession"
-  execute "mksession! " .g:vimtmpsessionfile
+function! s:StoreWindowSizes()
+  let winnr = winnr()
+  let g:window_last_height = winheight(winnr)
+  let g:window_last_width = winwidth(winnr)
+  echom "store window sizes ".g:window_last_height." ".g:window_last_width
 endfunction
 
-function! s:RestoreTempSession()
-  echom "rmsession"
-  execute "source " .g:vimtmpsessionfile 
-  silent execute "!rm " .g:vimtmpsessionfile
+function! s:RestoreWindowSizes()
+  echom "restore window sizes ".g:window_last_height." ".g:window_last_width
+  execute "resize ".g:window_last_height." <cr>"
+  execute "vertical resize ".g:window_last_width." <cr>"
+
 endfunction
