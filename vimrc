@@ -23,6 +23,7 @@ autocmd FileType javascript,svelte,html,css setlocal suffixesadd+=.js,.json,.htm
 
 " console.log
 nnoremap <leader>cl ^iconsole.log(<esc>A)<esc>
+inoremap <C-c><C-l> console.log()<esc>ci(
 
 " navigating between windows
 nnoremap <C-h> <C-w>h
