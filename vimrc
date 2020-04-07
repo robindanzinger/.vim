@@ -14,10 +14,15 @@ autocmd BufNewFile,BufRead *.svelte set syntax=html
 autocmd BufNewFile,BufRead *.ts set syntax=javascript
 syntax sync fromstart
 
+let mapleader = "ö"
+
 packadd! matchit
 
 " file navigation
 autocmd FileType javascript,svelte,html,css setlocal suffixesadd+=.js,.json,.html,.js,.css
+
+" console.log
+nnoremap <leader>cl ^iconsole.log(<esc>A)<esc>
 
 " navigating between windows
 nnoremap <C-h> <C-w>h
