@@ -24,6 +24,11 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
+" Hack, because netrw uses <C-l> for window refresh
+augroup netrw_mapping
+    autocmd!
+    autocmd filetype netrw nnoremap <buffer> <C-l> <C-w>l
+augroup END
 
 tnoremap <C-h> <C-w>h
 tnoremap <C-j> <C-w>j
@@ -32,9 +37,7 @@ tnoremap <C-l> <C-w>l
 
 " resize window to full width or go back to previous size
 nnoremap <C-w>z :<c-u>call <SID>ToggleWindowZoom()<CR>
-
-" resize window to full width or go back to previous size
-nnoremap <C-w>z :<c-u>call <SID>ToggleWindowZoom()<CR>
+tnoremap <C-w>z :<c-u>call <SID>ToggleWindowZoom()<CR>
 
 let g:windowzoom_on = 0
 let g:window_last_height = 0
