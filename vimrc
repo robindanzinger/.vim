@@ -11,6 +11,7 @@ syntax on
 set backspace=2
 set number
 autocmd BufNewFile,BufRead *.svelte set syntax=html
+autocmd BufNewFile,BufRead *.vue set filetype=html
 autocmd BufNewFile,BufRead *.ts set syntax=javascript
 syntax sync fromstart
 
@@ -19,7 +20,7 @@ let mapleader = "ö"
 packadd! matchit
 
 " file navigation
-autocmd FileType javascript,svelte,html,css setlocal suffixesadd+=.js,.json,.html,.js,.css
+autocmd FileType javascript,svelte,html,css,vue setlocal suffixesadd+=.js,.json,.html,.js,.css
 
 " console.log
 nnoremap <leader>cl ^iconsole.log(<esc>A)<esc>
@@ -40,6 +41,9 @@ tnoremap <C-h> <C-w>h
 tnoremap <C-j> <C-w>j
 tnoremap <C-k> <C-w>k
 tnoremap <C-l> <C-w>l
+
+" navigating between tabs
+nnoremap <leader>t :tabnext<CR>
 
 " resize window to full width or go back to previous size
 nnoremap <C-w>z :<c-u>call <SID>ToggleWindowZoom()<CR>
