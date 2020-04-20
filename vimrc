@@ -88,7 +88,7 @@ nnoremap <leader>smv :source $MYVIMRC<cr>
 nnoremap <leader>gf :<c-u>call <SID>SearchFunctionDefinition()<cr>
 
 function! s:SearchFunctionDefinition()
-  let @/='function '.expand('<cword>').' \?('
+  let @/='function '.expand('<cword>').' *('
 
   execute 'normal n'
 endfunction
