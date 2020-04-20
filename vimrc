@@ -9,7 +9,7 @@ set smartindent
 set expandtab 
 syntax on
 set backspace=2
-set number
+set number relativenumber
 autocmd BufNewFile,BufRead *.svelte set syntax=html
 autocmd BufNewFile,BufRead *.vue set filetype=html
 autocmd BufNewFile,BufRead *.ts set syntax=javascript
@@ -44,6 +44,10 @@ tnoremap <C-l> <C-w>l
 
 " navigating between tabs
 nnoremap <leader>t :tabnext<CR>
+tnoremap <leader>t <C-w>N:tabnext<CR>
+
+"go to normal mode in terminal
+tnoremap <leader>n <C-w>N 
 
 " resize window to full width or go back to previous size
 nnoremap <C-w>z :<c-u>call <SID>ToggleWindowZoom()<CR>
@@ -75,4 +79,15 @@ function! s:RestoreWindowSizes()
   execute "resize ".g:window_last_height." <cr>"
   execute "vertical resize ".g:window_last_width." <cr>"
 
+endfunction
+
+" source my vim
+nnoremap <leader>smv :source $MYVIMRC<cr>
+
+" go to function definition
+nnoremap <leader>gf :<c-u>call <SID>SearchFunctionDefinition()<cr>
+
+function! s:SearchFunctionDefinition()
+  let @/='function '.expand('<cword>').' \+('
+  execute 'normal n'
 endfunction
