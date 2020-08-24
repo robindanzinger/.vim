@@ -1,3 +1,4 @@
+let g:coc_disable_startup_warning = 1
 colorscheme smyck
 filetyp plugin indent on
 set tabstop=2
@@ -11,9 +12,17 @@ syntax on
 set backspace=2
 set number relativenumber
 autocmd BufNewFile,BufRead *.svelte set syntax=html
+autocmd BufNewFile,BufRead *.svelte set filetype=html
 autocmd BufNewFile,BufRead *.vue set filetype=html
 autocmd BufNewFile,BufRead *.ts set syntax=javascript
 syntax sync fromstart
+
+" langmap
+set langmap=ü[,ä],Ü{,Ä}
+
+set cmdheight=2
+" from coc, default is 4000 which might lead to poor user experience
+set updatetime=300
 
 let mapleader = "ö"
 
@@ -25,6 +34,8 @@ autocmd FileType javascript,svelte,html,css,vue setlocal suffixesadd+=.js,.json,
 " console.log
 nnoremap <leader>cl ^iconsole.log(<esc>A)<esc>
 inoremap <C-c><C-l> console.log()<esc>ci(
+" async => () { 
+inoremap <C-a><C-f> async () => {<cr>
 
 " navigating between windows
 nnoremap <C-h> <C-w>h
@@ -44,7 +55,9 @@ tnoremap <C-l> <C-w>l
 
 " navigating between tabs
 nnoremap <leader>t :tabnext<CR>
+nnoremap <leader>T :tabprevious<CR>
 tnoremap <leader>t <C-w>N:tabnext<CR>
+tnoremap <leader>T <C-w>N:tabprevious<CR>
 
 "go to normal mode in terminal
 tnoremap <leader>n <C-w>N 
@@ -84,6 +97,8 @@ endfunction
 " source my vim
 nnoremap <leader>smv :source $MYVIMRC<cr>
 
+nnoremap <leader>f ?\^<cr>
+
 " go to function definition
 nnoremap <leader>gf :<c-u>call <SID>SearchFunctionDefinition()<cr>
 
@@ -92,3 +107,45 @@ function! s:SearchFunctionDefinition()
 
   execute 'normal n'
 endfunction
+
+"mocha test
+nnoremap <leader>mnt :<c-u>call <SID>NormalTest()<cr>
+
+"mocha only test
+nnoremap <leader>mot :<c-u>call <SID>OnlyTest()<cr>
+
+function! s:NormalTest()
+  execute ':s/\.only(/(/'
+endfunction
+
+function! s:OnlyTest()
+  silent execute ':s/\(it\|describe\)(/\1.only(/'
+endfunction
+
+"coc snippets
+imap <C-l> <Plug>(coc-snippets-expand)
+vmap <C-j> <Plug>(coc-snippets-select)
+
+"jump to next placeholder
+let g:coc_snippet_next = '<c-j>'
+let g:coc_snippet_prev = '<c-k>'
+
+"imap <C-j> <Plug>(coc-snippets-expand-jump)
+
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+let g:coc_snippet_next = '<tab>'
+
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
