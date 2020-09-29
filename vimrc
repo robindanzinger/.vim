@@ -17,6 +17,8 @@ autocmd BufNewFile,BufRead *.vue set filetype=html
 autocmd BufNewFile,BufRead *.ts set syntax=javascript
 syntax sync fromstart
 
+set viminfo='100,<50,s10,h
+
 " langmap
 set langmap=ü[,ä],Ü{,Ä}
 
@@ -108,14 +110,24 @@ function! s:SearchFunctionDefinition()
   execute 'normal n'
 endfunction
 
+"bash shebang
+nnoremap <leader>she ggi#!/bin/bash<ESC>
+
 "mocha test
 nnoremap <leader>mnt :<c-u>call <SID>NormalTest()<cr>
+
+"mocha only test
+nnoremap <leader>mst :<c-u>call <SID>SkipTest()<cr>
 
 "mocha only test
 nnoremap <leader>mot :<c-u>call <SID>OnlyTest()<cr>
 
 function! s:NormalTest()
-  execute ':s/\.only(/(/'
+  execute ':s/\.\(only\|skip\)(/(/'
+endfunction
+
+function! s:SkipTest()
+  silent execute ':s/\(it\|describe\)(/\1.skip(/'
 endfunction
 
 function! s:OnlyTest()
