@@ -19,6 +19,9 @@ syntax sync fromstart
 
 set viminfo='100,<50,s10,h
 
+" fzf 
+set rtp+=/usr/bin/fzf
+
 " langmap
 set langmap=ü[,ä],Ü{,Ä}
 
