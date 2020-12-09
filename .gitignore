@@ -1,3 +1,5 @@
 .netrwhist
 *.swp
 /view
+/pack
+.netrwbook

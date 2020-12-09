@@ -22,6 +22,14 @@ set viminfo='100,<50,s10,h
 " fzf 
 set rtp+=/usr/bin/fzf
 
+" shorthand for find files
+" TODO nnoremap <leader>e 
+
+" quicklist quick navigation
+nnoremap <silent> +q :cnext<cr>
+nnoremap <silent> üq :cprev<cr>
+
+
 " langmap
 set langmap=ü[,ä],Ü{,Ä}
 
