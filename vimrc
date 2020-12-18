@@ -42,7 +42,7 @@ let mapleader = "ö"
 packadd! matchit
 
 " file navigation
-autocmd FileType javascript,svelte,html,css,vue setlocal suffixesadd+=.js,.json,.html,.js,.css
+autocmd FileType javascript,svelte,html,css,vue setlocal suffixesadd+=.js,.json,.html,.js,.css,.vue
 
 " console.log
 nnoremap <leader>cl ^iconsole.log(<esc>A)<esc>
@@ -168,7 +168,12 @@ endfunction
 
 let g:coc_snippet_next = '<tab>'
 
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+nmap <silent> cgd <Plug>(coc-definition)
+nmap <silent> cgy <Plug>(coc-type-definition)
+nmap <silent> cgi <Plug>(coc-implementation)
+nmap <silent> cgr <Plug>(coc-references)
+
+set path=.
+set path+=/usr/include
+set path+=src/**
+set path+=test/**
