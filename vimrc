@@ -49,6 +49,8 @@ nnoremap <leader>cl ^iconsole.log(<esc>A)<esc>
 inoremap <C-c><C-l> console.log()<esc>ci(
 " async => () { 
 inoremap <C-a><C-f> async () => {<cr>
+" () => { }
+inoremap <C-f> () => {<cr>})<esc>O
 
 " navigating between windows
 nnoremap <C-h> <C-w>h
