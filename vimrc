@@ -25,13 +25,13 @@ set rtp+=/usr/bin/fzf
 " shorthand for find files
 " TODO nnoremap <leader>e 
 
-" quicklist quick navigation
-nnoremap <silent> +q :cnext<cr>
-nnoremap <silent> üq :cprev<cr>
-
 
 " langmap
 set langmap=ü[,ä],Ü{,Ä}
+
+" quicklist quick navigation
+nnoremap <silent> +q :cnext<cr>
+nnoremap <silent> üq :cprev<cr>
 
 set cmdheight=2
 " from coc, default is 4000 which might lead to poor user experience
@@ -126,6 +126,19 @@ endfunction
 "bash shebang
 nnoremap <leader>she ggi#!/bin/bash<ESC>
 
+"open svelte file in vertical
+command -complete=file_in_path -nargs=1 Sve
+      \ call s:EditSvelteComponent("<args>")
+
+function! s:EditSvelteComponent(file)
+  echo "Edit svelte component" . a:file
+  exe 1 . "wincmd w"
+  exe 'edit '.a:file
+  exe 2 . "wincmd w"
+  exe 'edit '.substitute(a:file, "\.svelte", "\.das.js", "")
+  return 1
+endfunction
+
 "mocha test
 nnoremap <leader>mnt :<c-u>call <SID>NormalTest()<cr>
 
@@ -174,6 +187,8 @@ nmap <silent> cgd <Plug>(coc-definition)
 nmap <silent> cgy <Plug>(coc-type-definition)
 nmap <silent> cgi <Plug>(coc-implementation)
 nmap <silent> cgr <Plug>(coc-references)
+
+
 
 set path=.
 set path+=/usr/include
