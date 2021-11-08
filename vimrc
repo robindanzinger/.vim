@@ -17,6 +17,10 @@ autocmd BufNewFile,BufRead *.vue set filetype=html
 autocmd BufNewFile,BufRead *.ts set syntax=javascript
 syntax sync fromstart
 
+"some delay problems when hitting <ESC> in visual mode in terminal
+set timeoutlen=1000
+set ttimeoutlen=0
+
 set viminfo='100,<50,s10,h
 
 " fzf 
@@ -32,6 +36,8 @@ set langmap=ü[,ä],Ü{,Ä}
 " quicklist quick navigation
 nnoremap <silent> +q :cnext<cr>
 nnoremap <silent> üq :cprev<cr>
+nnoremap ; ,
+nnoremap , ;
 
 set cmdheight=2
 " from coc, default is 4000 which might lead to poor user experience
