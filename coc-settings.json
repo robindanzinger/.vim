@@ -6,5 +6,6 @@
       // customize filetypes to your needs
       "filetypes": ["graphql"]
     }
-  }
+  },
+  "svelte.enable-ts-plugin": true
 }
