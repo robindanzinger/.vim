@@ -55,7 +55,7 @@ let mapleader = "ö"
 packadd! matchit
 
 " file navigation
-autocmd FileType javascript,svelte,html,css,vue setlocal suffixesadd+=.js,.json,.html,.js,.css,.vue
+autocmd FileType javascript,svelte,html,css,vue setlocal suffixesadd+=.js,.json,.html,.js,.css,.vue,index.ts
 
 " console.log
 nnoremap <leader>cl ^iconsole.log(<esc>A)<esc>
@@ -176,12 +176,13 @@ endfunction
 "coc snippets
 imap <C-l> <Plug>(coc-snippets-expand)
 vmap <C-j> <Plug>(coc-snippets-select)
+xmap <leader>x <Plug>(coc-convert-snippet)
 
 "jump to next placeholder
 let g:coc_snippet_next = '<c-j>'
 let g:coc_snippet_prev = '<c-k>'
 
-"imap <C-j> <Plug>(coc-snippets-expand-jump)
+imap <C-j> <Plug>(coc-snippets-expand-jump)
 
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? coc#_select_confirm() :
@@ -196,14 +197,43 @@ endfunction
 
 let g:coc_snippet_next = '<tab>'
 
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> üg <Plug>(coc-diagnostic-prev)
+nmap <silent> äg <Plug>(coc-diagnostic-next)
+
 nmap <silent> cgd <Plug>(coc-definition)
 nmap <silent> cgy <Plug>(coc-type-definition)
 nmap <silent> cgi <Plug>(coc-implementation)
 nmap <silent> cgr <Plug>(coc-references)
 
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call ShowDocumentation()<CR>
 
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction
+
+nmap <leader>i :CocCommand tsserver.organizeImports<cr>
+nmap <leader>rn <Plug>(coc-rename)
+
+" Formatting selected code.
+xmap <leader>f <Plug>(coc-format-selected)
+nmap <leader>f <Plug>(coc-format-selected)
+
+" Applying codeAction to the selected region.
+" Example: `<leader>aap` for current paragraph
+xmap <leader>a <Plug>(coc-codeaction-selected)
+nmap <leader>a <Plug>(coc-codeaction-selected)
 
 set path=.
 set path+=/usr/include
 set path+=src/**
 set path+=test/**
+set path+=app/**
+
+set wildignore=node_modules/**,.svelte-kit/**,*.sh,\.*
