@@ -20,7 +20,7 @@ set backspace=2
 set number relativenumber
 autocmd BufNewFile,BufRead *.svelte set syntax=html
 autocmd BufNewFile,BufRead *.svelte set filetype=html
-autocmd BufNewFile,BufRead *.vue set filetype=html
+autocmd BufNewFile,BufRead *.vue set filetype=vue
 autocmd BufNewFile,BufRead *.ts set syntax=javascript
 syntax sync fromstart
 
@@ -128,13 +128,13 @@ nnoremap <leader>smv :source $MYVIMRC<cr>
 nnoremap <leader>f ?\^<cr>
 
 " go to function definition
-nnoremap <leader>gf :<c-u>call <SID>SearchFunctionDefinition()<cr>
+" nnoremap <leader>gf :<c-u>call <SID>SearchFunctionDefinition()<cr>
 
-function! s:SearchFunctionDefinition()
-  let @/='function '.expand('<cword>').' *('
-
-  execute 'normal n'
-endfunction
+" function! s:SearchFunctionDefinition()
+"   let @/='function '.expand('<cword>').' *('
+" 
+"   execute 'normal n'
+" endfunction
 
 "bash shebang
 nnoremap <leader>she ggi#!/bin/bash<ESC>
@@ -234,6 +234,35 @@ set path=.
 set path+=/usr/include
 set path+=src/**
 set path+=test/**
+set path+=tests/**
 set path+=app/**
 
-set wildignore=node_modules/**,.svelte-kit/**,*.sh,\.*
+set wildignore=node_modules/**,.svelte-kit/**,*.sh,\.*,coverage/**,**/__snapshots__/**
+
+nmap <leader>s :syntax sync fromstart<CR>
+
+vnoremap <leader>gf :call <SID>OpenSelectedFile()<CR>
+vnoremap <leader>gs :call <SID>SearchString()<cr>
+
+function! s:OpenSelectedFile()
+  let temp = @t
+  norm! gv"ty:vs<CR>
+  exec "vs"
+  exec "normal! \<c-w>l"
+  exec "find " .. @t
+  let @t = temp
+endfunction
+
+function! s:SearchString() 
+  let text = <SID>GetSelectedString()
+  let directory = input("Path: ", "", "file_in_path")
+  exec "vim " . text . " " . directory 
+endfunction 
+
+function! s:GetSelectedString() 
+  let temp = @t
+  norm! gv"ty<CR>
+  let sel = @t
+  let @t = temp
+  return sel
+endfunction
