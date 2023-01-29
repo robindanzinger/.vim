@@ -1,12 +1,17 @@
 let g:coc_disable_startup_warning = 1
 set termguicolors
-
 " Correct RGB escape codes for vim inside tmux
 if !has('nvim') && $TERM ==# 'screen-256color'
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 endif
-colorscheme smyck
+set background=dark
+let g:everforest_background = 'hard'
+let g:everforest_enable_italic = 0
+let g:everforest_better_performance = 1
+
+colorscheme everforest
+
 filetyp plugin indent on
 set tabstop=2
 set shiftwidth=2
@@ -22,6 +27,7 @@ autocmd BufNewFile,BufRead *.svelte set syntax=html
 autocmd BufNewFile,BufRead *.svelte set filetype=html
 autocmd BufNewFile,BufRead *.vue set filetype=vue
 autocmd BufNewFile,BufRead *.ts set syntax=javascript
+autocmd BufNewFile,BufRead *.json set filetype=jsonc
 syntax sync fromstart
 
 "some delay problems when hitting <ESC> in visual mode in terminal
@@ -31,7 +37,7 @@ set ttimeoutlen=0
 set viminfo='100,<50,s10,h
 
 " fzf 
-set rtp+=/usr/bin/fzf
+set rtp+=~/.fzf
 
 " shorthand for find files
 " TODO nnoremap <leader>e 
@@ -55,7 +61,7 @@ let mapleader = "ö"
 packadd! matchit
 
 " file navigation
-autocmd FileType javascript,svelte,html,css,vue setlocal suffixesadd+=.js,.json,.html,.js,.css,.vue,index.ts
+autocmd FileType javascript,svelte,html,css,vue setlocal suffixesadd+=.js,.json,.html,.js,.css,.vue,.svelte,index.ts
 
 " console.log
 nnoremap <leader>cl ^iconsole.log(<esc>A)<esc>
@@ -184,18 +190,19 @@ let g:coc_snippet_prev = '<c-k>'
 
 imap <C-j> <Plug>(coc-snippets-expand-jump)
 
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? coc#_select_confirm() :
-      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-let g:coc_snippet_next = '<tab>'
+"  inoremap <silent><expr> <TAB>
+"        \ pumvisible() ? coc#_select_confirm() :
+"        \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+"        \ <SID>check_back_space() ? "\<TAB>" :
+"        \ coc#refresh()
+
+
+" let g:coc_snippet_next = '<tab>'
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.

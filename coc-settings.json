@@ -1,13 +1,7 @@
 {
-  "languageserver": {
-    "graphql": {
-      "command": "graphql-lsp",
-      "args": ["server", "-m", "stream"],
-      // customize filetypes to your needs
-      "filetypes": ["graphql"]
-    }
-  },
   "svelte.enable-ts-plugin": true,
   "coc.preferences.formatOnSaveFiletypes": ["typescript", "typescriptreact"],
-  "html.autoClosingTags": false
+  "suggest.enablePreselect": false,
+  "html.autoClosingTags": false,
+  "suggest.noselect": true
 }
