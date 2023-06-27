@@ -66,6 +66,7 @@ autocmd FileType javascript,svelte,html,css,vue setlocal suffixesadd+=.js,.json,
 " console.log
 nnoremap <leader>cl ^iconsole.log(<esc>A)<esc>
 inoremap <C-c><C-l> console.log()<esc>ci(
+inoremap <C-c><C-l><C-d> console.log('DEBUG',  )<esc>hi
 " async => () { 
 inoremap <C-a><C-f> async () => {<cr>
 " () => { }
@@ -201,6 +202,9 @@ endfunction
 "        \ <SID>check_back_space() ? "\<TAB>" :
 "        \ coc#refresh()
 
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice.
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " let g:coc_snippet_next = '<tab>'
 
@@ -225,7 +229,7 @@ function! ShowDocumentation()
   endif
 endfunction
 
-nmap <leader>i :CocCommand tsserver.organizeImports<cr>
+nmap <leader>i :CocCommand editor.action.organizeImport<cr>
 nmap <leader>rn <Plug>(coc-rename)
 
 " Formatting selected code.
