@@ -30,6 +30,19 @@ autocmd BufNewFile,BufRead *.ts set syntax=javascript
 autocmd BufNewFile,BufRead *.json set filetype=jsonc
 syntax sync fromstart
 
+" GREP
+" use ripgrep
+if executable("rg")
+  set grepprg=rg\ --vimgrep\ --smart-case\ --hidden
+  set grepformat=%f:%l:%c:%m
+endif
+
+command! -nargs=+ -complete=file Grep
+    \ execute 'silent grep! <args>' | redraw! | cwindow
+
+" bind K to grep word under cursor
+nnoremap <leader>K :Grep "\b<C-R><C-W>\b"<CR>
+
 "some delay problems when hitting <ESC> in visual mode in terminal
 set timeoutlen=1000
 set ttimeoutlen=0
@@ -213,10 +226,10 @@ inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<C
 nmap <silent> üg <Plug>(coc-diagnostic-prev)
 nmap <silent> äg <Plug>(coc-diagnostic-next)
 
-nmap <silent> cgd <Plug>(coc-definition)
-nmap <silent> cgy <Plug>(coc-type-definition)
-nmap <silent> cgi <Plug>(coc-implementation)
-nmap <silent> cgr <Plug>(coc-references)
+nmap <silent> <leader>gd <Plug>(coc-definition)
+nmap <silent> <leader>gy <Plug>(coc-type-definition)
+nmap <silent> <leader>gi <Plug>(coc-implementation)
+nmap <silent> <leader>gr <Plug>(coc-references)
 
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call ShowDocumentation()<CR>
